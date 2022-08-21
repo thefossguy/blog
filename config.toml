@@ -1,0 +1,95 @@
+baseURL	= "https://blog.thefossguy.com/"
+title	= "Pratham Patel's blog"
+theme	= "hugo-coder"
+
+languageCode			= "en"
+defaultContentLanguage	= "en"
+enableEmoji				= true
+
+paginate = 20
+
+pygmentsStyle					= "monokai"
+pygmentsUseClassic				= false
+pygmentsCodeFences				= true
+pygmentsCodeFencesGuessSyntax	= true
+pygmentsUseClasses				= false
+
+
+[params]
+	author		= "Pratham Patel"
+	description	= "Pratham Patel's blog"
+	gravatar	= "thefirst1322@gmail.com"
+	info		= "this is where I ramble"
+#	info		= ["haccerman"]
+
+	dateFormat	= "2006 01 02"
+
+	# for some reason, this isn't working... :(
+	commit		= "https://github.com/shivohamx3/test/tree/master"
+
+	# left to right text, nothing barbaric here
+	rtl = false
+
+	colorScheme				= "dark"
+	hideColorSchemeToggle	= true
+
+	maxSeeAlsoItems	= 10
+
+
+#[taxonomies]
+#	category	= "categories, asf"
+#	series		= "series"
+#	tag			= "tags"
+#	author		= "authors"
+
+[menu]
+
+	[[menu.main]]
+		name	= "Blog"
+		weight	= 1
+		url		= "posts/"
+
+	[[menu.main]]
+		name	= "README"
+		weight	= 2
+		url		= "about/readme"
+
+[[params.social]]    # TODO: a page with link to my contributions to kernel
+	name	= "Linux Kernel"
+	icon	= "fa fa-2x fa-linux"
+	weight	= 2
+	url		= "https://blog.thefossguy.com"
+
+[[params.social]]
+	name	= "Gitea"
+	icon	= "fa fa-2x fa-git"
+	weight	= 2
+	url		= "https://git.thefossguy.com/thefossguy"
+
+[[params.social]]
+	name	= "GitLab"
+	icon	= "fa fa-2x fa-gitlab"
+	weight	= 3
+	url		= "https://gitlab.com/thefossguy"
+
+[[params.social]]
+	name	= "GitHub"
+	icon	= "fa fa-2x fa-github"
+	weight	= 4
+	url		= "https://github.com/thefossguy"
+
+[[params.social]]
+	name	= "Twitter"
+	icon	= "fa fa-2x fa-twitter"
+	weight	= 5
+	url		= "https://nitter.it/thefossguy"
+
+
+[[params.social]]
+	name	= "Donate?"
+	icon	= "fa fa-2x fa-heart-o"
+	weight	= 5
+	url		= "https://github.com/sponsors/thefossguy"
+
+#[markup.goldmark.renderer]
+#   unsafe = true
