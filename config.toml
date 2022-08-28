@@ -84,11 +84,18 @@ pygmentsUseClasses				= false
 	weight	= 5
 	url		= "https://nitter.it/thefossguy"
 
+[[params.social]]
+	name	= "RSS"
+	icon	= "fa fa-2x fa-rss"
+	weight	= 6
+	url		= "https://blog.thefossguy.com/index.xml"
+	rel		= "alternate"
+	type	= "application/rss+xml"
 
 [[params.social]]
 	name	= "Donate?"
 	icon	= "fa fa-2x fa-heart-o"
-	weight	= 5
+	weight	= 7
 	url		= "https://github.com/sponsors/thefossguy"
 
 #[markup.goldmark.renderer]
