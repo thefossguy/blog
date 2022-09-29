@@ -88,7 +88,7 @@ pygmentsUseClasses = false
     [[menu.main]]
     name   = "README"
     weight = 2
-    url    = "about/readme"
+    url    = "about/readme.md"
 
 
 #[markup.goldmark.renderer]
