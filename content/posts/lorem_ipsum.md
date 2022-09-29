@@ -1,11 +1,8 @@
 +++ 
 draft = false
 date = 2022-08-20T18:38:17+05:30
-title = "Lorem Ipsum (test)"
-description = "This is a test post"
-authors = ["Pratham Patel"]
-tags = ["test"]
-categories = ["delete"]
+title = "Lorem Ipsum (TEST)"
+description = "A post that I refer back to, for MD syntax"
 externalLink = ""
 series = []
 +++
