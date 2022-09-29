@@ -1,9 +1,15 @@
 # README
 
 
-```bash
-git clone git@git.thefossguy.com:thefossguy/blog.git /trayimurti/containers/volumes/blog
+## clone
 
-git submodule init
-git submodule update
+```bash
+git clone --recursive git@git.thefossguy.com:thefossguy/blog.git /trayimurti/containers/volumes/blog
+```
+
+## update
+
+```bash
+cd /trayimurti/containers/volumes/blog
+git submodule update --remote
 ```
