@@ -91,5 +91,5 @@ pygmentsUseClasses = false
     url    = "about/readme.md"
 
 
-#[markup.goldmark.renderer]
-#   unsafe = true
+[markup.goldmark.renderer]
+    unsafe = true
