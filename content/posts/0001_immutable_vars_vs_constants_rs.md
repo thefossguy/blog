@@ -8,10 +8,19 @@ tags = ["the book", "rust", "rust variables", "rust constants"]
 externalLink = ""
 +++
 
-## Aren't immutable variables same as constants?
+## Introduction
 
-Yes and no. The property that "the value can never change" is true for both
-but that is all.
+If you just started learning Rust, you might have noticed that its variables
+are "immutable by default". Rust also has constants.
+
+Doesn't this mean that Rust's "immutable variables" ≈ "constants"?
+
+Not quite.
+
+## How are immutable variables different than constants?
+
+Only the property that "the value can never change" is true for both but that
+is all that is common between Rust's immutable variables and constants.
 
 Constants are used when you have to evaluate something at compile-time.
 Meanwhile, immutable variables are used when you need a value at run-time.
@@ -129,6 +138,8 @@ Another few _key_ differences between variables and constants as as follows:
 
  - Constants can't be shadowed _with the same type of variable_.
  - Constants can't be assigned a value that will be calculated at run-time.
+
+## Conclusion
 
 So, in conclusion, though `const` and `let` (without `mut`) are the same
 in the sense that "the assigned value never changes", they are _used_ for
