@@ -1,5 +1,5 @@
 +++
-draft = true
+draft = false
 date = 2022-10-09T10:40:00+05:30
 title = "Turn an existing mutable variable to immutable in Rust"
 description = "This is a series of posts that tries to solve various queries you might have while reading The Book."
@@ -8,14 +8,18 @@ tags = ["the book", "rust", "rust immutable", "rust mutable"]
 externalLink = ""
 +++
 
-## Introduction
+The immutability of Rust's variables is a curse and a boon. It is a life saver
+when you are dealing with multi-threaded code. A curse when you want to modify
+the value.
 
-There will be times when you have a mutable variable and want to make it
-immutable again. "How do I do that?"
+So what do you do now? You add a `mut` after the `let` and make it mutable.
+Some time down the line (haha, get it?), you realize that you need the
+immutability. How do you turn a mutable variable into an immutable variable?
 
-## TELL ME HOW!
+## Shadow it
 
-Shadowing. Please don't scream again :(
+Most of the times, the solution you are looking for is to shadow the mutable
+variable with the immutable variable.
 
 Take the following code snippet for example:
 
@@ -56,14 +60,14 @@ For more information about this error, try `rustc --explain E0384`.
 `rustc` is complaining that on line 6, column 5 of "test.rs", it is referring
 to `x` as immutable.
 
-But didn't we declare `x` on as `mut` on line 2? Yes, we did.
+But didn't we declare `x` as `mut` on line 2? Yes, we did.
 
 Now, check the 5<sup>th</sup> line. There I assigned `x` to itself, making use
 of Rust's _shadowing_ feature. The name `x` is now pointing to a different
 storage that is immutable, but has the value of `&mut x` assigned to it.
 
 {{< notice info >}}
-Please note that in the above explanation, I only use `&mut x` to demonstrate
+Please note that in the above explanation, I only use "`&mut x`" to demonstrate
 that the _value_ of mutable variable `x` gets copied. This does not mean that
 the new `x` will point to `&mut x`.
 {{< /notice >}}
