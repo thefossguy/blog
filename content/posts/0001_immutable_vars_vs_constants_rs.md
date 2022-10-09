@@ -1,155 +1,338 @@
 +++
 draft = false
 date = 2022-10-06T10:30:00+05:30
-title = "How do immutable variables differ from constants in Rust"
+title = "What are the differences between Constants and Variables in Rust?"
 description = "This is a series of posts that tries to solve various queries you might have while reading The Book."
 slug = "immutable_vars_vs_constants_rs.md"
 tags = ["the book", "rust", "rust variables", "rust constants"]
 externalLink = ""
 +++
 
-## Introduction
+The reason why the Rust language's developers can advertise features like
+_thread safety_ and _memory safety guarantee_ is because of a fundamental
+design ideology of immutable variables. Immutable variables are the type of
+variables where, once you assign a value, it does not change.
 
-If you just started learning Rust, you might have noticed that its variables
-are "immutable by default". Rust also has constants.
+Rust also has constants. So you might wonder "Why does Rust have Immutable
+variables _and_ Constants? Aren't they the same thing?"
 
-Doesn't this mean that Rust's "immutable variables" ≈ "constants"?
+In this blog post, I will explain the basics of variables and constants
+in Rust, and how an immutable variable differs from a mutable variable.
 
-Not quite.
+## Immutable variables VS Constants
 
-## How are immutable variables different than constants?
+If, like me, Rust is not your first programming language, this confusion is
+bound to occur sooner rather than later--"Why do either immutable variables
+or constants exist in Rust?"
 
-Only the property that "the value can never change" is true for both but that
-is all that is common between Rust's immutable variables and constants.
+If you have written a simple program in Rust, you will realize that Rust has
+2 types of variables. One is the type which allows changing a value, even
+after it is assigned, called _mutable variables_. The second type is the one
+in question, immutable variables. Unless explicitly specified, Rust assumes
+a variable is immutable. Meaning, once a value is assigned to your variable,
+that value will never be allowed to be changed.
 
-Constants are used when you have to evaluate something at compile-time.
-Meanwhile, immutable variables are used when you need a value at run-time.
+Rust only has one type for constants. The one which makes sense. Immutable by
+default. Once a value is assigned, it is not allowed to change.
 
-Take a look at the following code snippet:
+## Type inferencing
 
-Filename: test.rs
+When you declare a variable in Rust, you do it using the `let` keyword. This
+is different than other low-level languages like C and C++, where you are to
+explicitly specify the data-type of a variable using the appropriate keyword
+like, `int`, `float`, `char`, etc.
 
-```rust
-fn main() {
-    const ARRAY_LENGTH: usize = 5;
-    let my_array: [usize; ARRAY_LENGTH];
-}
-```
+Using the `let` keyword is necessary, but specifying a variable's data-type
+is not necessary. You can either leave it to the Rust compiler (`rustc`) to
+take a guess--which hardly misfires--or you can annotate the type yourself.
 
-(Populating the array is not necessary for our purposes.)
+This guessing that `rustc` does is called "type inferencing".
 
-Let's compile it.
+Type inferencing is absent for constants. It is the job of a programmer to
+provide a type for a constant that is declared.
 
-```bash
-$ rustc test.rs
-warning: unused variable: `my_array`
- --> test.rs:3:9
-  |
-3 |     let my_array: [usize; ARRAY_LENGTH];
-  |         ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_my_array`
-  |
-  = note: `#[warn(unused_variables)]` on by default
+Take a look at the following code:
 
-warning: 1 warning emitted
-```
-
-A warning was generated, but not a compile-time error. So our code is "correct".
-Since our code compiled, our constant, `ARRAY_LENGTH` was replaced with
-the value "5" _while the code was being compiled_.
-Now, let's add a few lines below it and comment out this one.
-
-Filename: test.rs
+Filename: const_example.rs
 
 ```rust
 fn main() {
-    /*
-    const ARRAY_LENGTH: usize = 5;
-    let my_array: [usize; ARRAY_LENGTH];
-    */
-
-    let var_array_length: usize = 5;
-    let new_array: [usize; var_array_length];
+    let my_var = -128;
+    const MY_CONST = -128;
 }
 ```
 
-And, compile!
+In here, I am declaring an immutable variable (`my_var`) with the value "-128"
+and a constant (`MY_CONST`) with the same value of "-128". Another similarity
+is that neither of them are type annotated.
+
+Let's try and compile this.
 
 ```bash
-$ rustc test.rs
+$ rustc const_example.rs
+error: missing type for `const` item
+ --> const_example.rs:3:11
+  |
+3 |     const MY_CONST = -128;
+  |           ^^^^^^^^ help: provide a type for the constant: `MY_CONST: i32`
+
+error: aborting due to previous error
+```
+
+Hmm...
+
+`rustc` is complaining about an error on line 3 (where we declared our
+constant). The highlighted part is the name (`MY_CONST`).
+
+The help states "provide a type for the constant". The help message also
+included a "recommended/suggested type" (`i32`) but it was not applied.
+
+Hence, one of the difference between an immutable variable and a constant in
+Rust is that constants **need** type annotation. Type inferencing is **not**
+applicable to constants.
+
+## Scope of declaration
+
+Another point of difference between an immutable variable and a constant in
+Rust is its scope of declaration.
+
+Constants can be declared globally (before/outside the `main` function).
+Variables, immutable or otherwise, cannot be declared globally.
+
+Let's see this with an example.
+
+Filename: const_example.rs
+
+```rust
+const MY_CONST:i32 = -128;
+let my_var: i32 = -128;
+
+fn main() {
+    println!("{my_var} {MY_CONST}");
+}
+```
+
+As you can see here, I have mostly the same code as above, but I have moved
+both, the variable and the constant declaration, in the global scope.
+
+'tis compile time!
+
+```bash
+$ rustc const_example.rs
+error: expected item, found keyword `let`
+ --> const_example.rs:2:1
+  |
+2 | let my_var: i32 = -128;
+  | ^^^ expected item
+
+error: aborting due to previous error
+```
+
+An error :(
+
+The way I wrote the code should give you a hint. We have an error on the
+2<sup>nd</sup> line. Our constant is declared on the 1<sup>st</sup> line.
+
+This means, `rustc` did not see any problems with a constant in the global
+scope. But it does have a problem with our immutable variable if it is
+declared in the global scope.
+
+## Assignable values
+
+Another major difference between variables (immutable or otherwise) and
+constants in Rust is that a constant **cannot** have a value that can be
+calculated **only at run-time**.
+
+What do I mean by this?
+
+Take a look at the following code:
+
+Filename: const_example.rs
+
+```rust
+cat const_example.rs
+fn main() {
+    let pi: f32 = 3.14;
+    const PI_TIMES_TWO: f32 = pi * 2;
+}
+```
+
+In this code, I am declaring an immutable variable (`pi`) and assigning it the
+value of "3.14". Next, I declare a constant, with the same type as `pi`,
+and I assign it the value of `pi * 2`.
+
+Shall we compile?
+
+```bash
+$ rustc const_example.rs
 error[E0435]: attempt to use a non-constant value in a constant
- --> test.rs:8:28
+ --> const_example.rs:3:31
   |
-7 |     let var_array_length: usize = 5;
-  |     -------------------- help: consider using `const` instead of `let`: `const var_array_length`
-8 |     let new_array: [usize; var_array_length];
-  |                            ^^^^^^^^^^^^^^^^ non-constant value
+3 |     const PI_TIMES_TWO: f32 = pi * 2;
+  |     ------------------        ^^ non-constant value
+  |     |
+  |     help: consider using `let` instead of `const`: `let PI_TIMES_TWO`
 
 error: aborting due to previous error
 
 For more information about this error, try `rustc --explain E0435`.
 ```
 
-Oh no. Okay, let's do `rustc --explain E0435`.
+As you can see, even though `pi` is an immutable variable, we get this error.
+This is because `PI_TIMES_TWO` is dependent on the value stored in `pi`
+to determine its own value. This is problematic because the values of
+variables are **not** evaluated at compile-time.
 
-```bash
-$ rustc --explain E0435
+The value assigned to a constant **must not** be calculated/evaluated at
+_run-time_.
 
-    A non-constant value was used in a constant expression.
+## Compile-time vs Run-time
 
-    Erroneous code example:
+As I just proved, constants can not be assigned a value that will be
+calculated at run-time. That must raise a question if the core reason for the
+existence of immutable variables and constants must be related to the
+differences in run-time and compile-time.
 
-    ```
-    let foo = 42;
-    let a: [u8; foo]; // error: attempt to use a non-constant value in a constant
-    ```
+While I am **not** someone who has contributed to the design of the Rust
+language, I am inclined to assume that this might be the reason.
 
-    'constant' means 'a compile-time value'.
+You can use the value assigned to a constant during compile-time, to make
+decisions _while_ the code is being compiled. This can not be done using
+variables, immutable or otherwise.
 
-    More details can be found in the [Variables and Mutability] section of the book.
+Let me demonstrate this using an example.
 
-    [Variables and Mutability]: https://doc.rust-lang.org/book/ch03-01-variables-and-mutability.html#differences-between-variables-and-constants
+Filename: const_example.rs
 
-    To fix this error, please replace the value with a constant. Example:
+```rust
+fn main() {
+    let arr_len_var: usize = 5;
+    const ARR_LEN_CONST: usize = 5;
 
-    ```
-    let a: [u8; 42]; // ok!
-    ```
-
-    Or:
-
-    ```
-    const FOO: usize = 42;
-    let a: [u8; FOO]; // ok!
-    ```
+    let arr_from_const: [i32; ARR_LEN_CONST];
+    let arr_from_var: [i32; arr_len_var];
+}
 ```
 
-The most important part of this explainer is:
+In this example, I am doing the following:
 
-> **'constant' means 'a compile-time value'.**
+ 1. Declare an immutable variable with the value "5".
+ 2. Declare a constant with the value "5".
+ 3. Create an empty array, using the value of an immutable variable as the
+ "array size/length".
+ 4. Create another empty array, using the value of a constant as the "array
+ size/length"
 
-This means, a constant is only used when you (technically `rustc`) are
-compiling some code and want a change to occur _during compilation_.
+If, the jibberish that I just wrote above is correct, we should expect a
+compilation error on the 6<sup>th</sup> line.
 
-All the references of a constant will be replaced by the value assigned to it
-during compile time. You may `println!("{MY_CONSTANT}");`, but it will be changed
-to `println!("5");` **during compilation** (assuming `MY_CONSTANT` is "5").
+```bash
+$ rustc const_example.rs
+error[E0435]: attempt to use a non-constant value in a constant
+ --> const_example.rs:6:29
+  |
+2 |     let arr_len_var: usize = 5;
+  |     --------------- help: consider using `const` instead of `let`: `const arr_len_var`
+...
+6 |     let arr_from_var: [i32; arr_len_var];
+  |                             ^^^^^^^^^^^ non-constant value
 
-Another few _key_ differences between variables and constants as as follows:
+error: aborting due to previous error
 
- - Constants can't be shadowed _with the same type of variable_.
- - Constants can't be assigned a value that will be calculated at run-time.
+For more information about this error, try `rustc --explain E0435`.
+```
+
+As expected.
+
+`rustc` has 2 messages for us. The first message--after looking at the
+6<sup>th</sup> line--is a suggestion for us; to change `arr_len_var` from
+a variable to a constant.
+
+The second message is an error message. It is complaining that the value
+which determines the length of an array, is a "non-constant value".
+
+"But I thought the values of immutable variables could never change?! Does
+that not equate to a _non-constant value_?"
+
+You are correct, but this is something different. You see--this is where I am
+applying my knowledge of what I learnt about compiler design from my
+college--constants are also _evaluated_ at compile-time.
+
+This means, the following line -
+
+```rust
+    const PI: f32 = 3.14;
+    println!("{PI}");
+```
+
+gets replaced with the following in the first few passes of the Rust compiler.
+
+```rust
+    const PI: f32 = 3.14;
+    println!("3.14");
+```
+
+The constant got evaluated (expanded), at compile-time. This will not be be
+the case for a variable, immutable or otherwise.
+
+This is also what happens when we use a constant to determine the length/size
+of an array.
+
+## Shadows
+
+You might know about shadowing in Rust. It refers to the act of referring
+to a different storage/address using the same name.
+
+Below is an example of shadowing:
+
+```rust
+let five = 5;
+let five = 6;
+```
+
+Here, on the first line, we are declaring an immutable variable `five`. It
+assigned the value "5". In the immediate next line, we declare the variable
+`five` again. This time, we assign it "6".
+
+What this does is, when `five` was first declared and assigned the value "5",
+it was given a memory address to store that "5" which we assigned to it.
+Assume this memory address to be `0x01`.
+
+Then, when we declared `five` again; this time with a different value, "6";
+a different memory address was given to our variable `five`. This, new memory
+address stored the value "6".  Assume this memory address to be `0x02`.
+
+Now, the older memory address (`0x01`) is not overwritten with "6", instead of
+"5". It is still kept--maybe because this shadow was a local change and we
+will need the previous value again? who knows--intact. But now, when we ask,
+"Hey `five`, what is your assigned value?", it will check the memory location
+`0x02` and give us a value from there; which is "6".
+
+This isn't possible for constants.
+
+ - You can not shadow a constant with a constant (of any type).
+ - You can not shadow a constant with a variable (of any type).
+ - You can not shadow a variable with a constant (of any type).
+
+## Minor nit-picks
+
+A few minor differences between a constant and an immutable variable are as
+follows:
+
+ - Variables are immutable by default, but they can also be mutable, if
+ asked nicely. On the contrary, constants are _always_ immutable. (You cannot
+ use the keyword `mut` next to the `const` keyword.)
+ - To declare a constant, we use the `const` keyword, but to declare an
+ immutable variable, we use the `let` keyword. A variable can be made
+ immutable if, at the time of declaration, the `mut` keyword is used alongside
+ the `let` keyword.
 
 ## Conclusion
 
-So, in conclusion, though `const` and `let` (without `mut`) are the same
-in the sense that "the assigned value never changes", they are _used_ for
-different scenarios. Constants are used when you want a value to determine
-something **at compile-time** (like defining the length of an array). If you
-want a value to be used **at run-time**, that is where immutable variables
-become useful.
+The intelligent mind who were designing the Rust language were obviously not
+out of their minds when they created variables that default to immutability
+when constants would also exist.
 
----
-
-<sub>Please excuse the absence of comments. I do not want to enable any tracking
-(except for necessary embeds like YouTube and Twitter). I am not a web-dev and
-have no way of manually verifying if a provider tracks you or not.</sub>
+To recap, constants need type annotations, but they can be declared in the
+global scope; values assigned to constants cannot be something that is
+calculated at run-time and they can not be shadowed.

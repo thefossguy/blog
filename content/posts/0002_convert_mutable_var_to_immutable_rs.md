@@ -1,7 +1,7 @@
 +++
 draft = false
 date = 2022-10-06T10:40:00+05:30
-title = "How to turn an existing mutable variable into an immutable variable"
+title = "Turn an existing mutable variable to immutable in Rust"
 description = "This is a series of posts that tries to solve various queries you might have while reading The Book."
 slug = "convert_mutable_var_to_immutable_rs.md"
 tags = ["the book", "rust", "rust immutable", "rust mutable"]
