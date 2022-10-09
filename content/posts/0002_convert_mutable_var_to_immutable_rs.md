@@ -1,6 +1,6 @@
 +++
 draft = true
-date = 2022-10-9T10:40:00+05:30
+date = 2022-10-09T10:40:00+05:30
 title = "Turn an existing mutable variable to immutable in Rust"
 description = "This is a series of posts that tries to solve various queries you might have while reading The Book."
 slug = "convert_mutable_var_to_immutable_rs.md"
