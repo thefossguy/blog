@@ -3,7 +3,7 @@ draft = false
 date = 2022-10-06T10:30:00+05:30
 title = "What are the differences between Constants and Variables in Rust?"
 description = "This is a series of posts that tries to solve various queries you might have while reading The Book."
-slug = "immutable_vars_vs_constants_rs.md"
+slug = "immutable-vars-vs-constants-rs.md"
 tags = ["the book", "rust", "rust variables", "rust constants"]
 externalLink = ""
 +++
