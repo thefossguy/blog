@@ -59,7 +59,3 @@ There are many variations of passages of Lorem Ipsum available, but the majority
 ```bash
 echo 'return 0'
 ```
-
----
-
-Please excuse the absence of comments. I do not want to enable any tracking (except for necessary embeds like YouTube and Twitter). I am not a web-dev and have no way of manually verifying if a provider tracks you or not.

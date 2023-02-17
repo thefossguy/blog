@@ -18,10 +18,3 @@ My main purpose of using Neovim is that it has LSB built in (`:help lsp`). You m
 ## Adding Plugins
 
 To add some IDE-like functionalities to Neovim, you need to add some plugins first. If you do not know how to add plugins to Neovim, refer to my tutorial at [Linux Handbook.com]() to get more clarity.
-
-
-
-
----
-
-Please excuse the absence of comments. I do not want to enable any tracking (except for necessary embeds like YouTube and Twitter). I am not a web-dev and have no way of manually verifying if a provider tracks you or not.
