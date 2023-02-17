@@ -82,9 +82,3 @@ variable with a new immutable variable.
 let mut foo; // foo is mutable
 let foo = foo; // foo shadows [mutable foo] and is now immutable
 ```
-
----
-
-<sub>Please excuse the absence of comments. I do not want to enable any tracking
-(except for necessary embeds like YouTube and Twitter). I am not a web-dev and
-have no way of manually verifying if a provider tracks you or not.</sub>

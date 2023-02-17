@@ -336,9 +336,3 @@ when constants would also exist.
 To recap, constants need type annotations, but they can be declared in the
 global scope; values assigned to constants cannot be something that is
 calculated at run-time and they can not be shadowed.
-
----
-
-<sub>Please excuse the absence of comments. I do not want to enable any tracking
-(except for necessary embeds like YouTube and Twitter). I am not a web-dev and
-have no way of manually verifying if a provider tracks you or not.</sub>
