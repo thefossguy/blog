@@ -22,7 +22,7 @@ VisionFive 2. Following hardware features peaked my interest the *most*:
   - Presence of QSPI flash for `u-boot`
   - The SBC was available with 8 GB of RAM (that is the minimum for me)
 
-The VisionFive 2 also has one M.2 slot for an NVMe drive, but it doesn't
+The VisionFive 2 also has one M.2 slot for an NVMe (2280) drive, but it doesn't
 interest me as much. Particularly because it only has the bandwidth of **1x
 PCIe 2.0** lane. Also because I can not afford a _"good"_ NVMe drive at the
 moment.
@@ -31,6 +31,11 @@ I don't want to put in a cheap NVMe drive because the cheap ones usually omit
 DRAM. That isn't a problem on a moderately fast computer. But on a computer
 whose CPU (SiFive U74) [allegedly] performs similarly to an ARM A55 core, said
 latency hit is more noticeable.
+
+{{< notice info >}}
+On the note of NVMe, the one thing missing from the hardware perspective is
+the screw to hold the NVMe drive itself.
+{{</ notice >}}
 
 
 # Initial software setup
