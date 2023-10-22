@@ -1,4 +1,4 @@
-+++ 
++++
 draft = true
 date = 2022-09-29T13:12:00+05:30
 title = "Developing: Neovim as a Rust IDE (sort of)"

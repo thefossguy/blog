@@ -1,4 +1,4 @@
-+++ 
++++
 draft = false
 date = 2023-02-22T12:36:00+05:30
 title = "My review of the VisionFive 2"
@@ -85,7 +85,7 @@ card and boot it up.
 
 Although the SD Card image provided by the vendor worked fine for me, people
 have reported two major things missing from their kernel. The modules for
-BTRFS are not built and IPv6 isn't supported either. We will compile the 
+BTRFS are not built and IPv6 isn't supported either. We will compile the
 kernel soon, but there are other problems with the image that need to be
 tackled first.
 
@@ -244,13 +244,13 @@ incompatible.** So I removed the connector from the fan and soldered the wires
 to the jumper wires and inserted it into my GPIO pins. It works now :smile:
 
 With the fan on, and compiling the StarFive's Linux tree for the VisionFive 2
-using `make all -j4`, I never saw the temps go above 42 C. This is quite an 
+using `make all -j4`, I never saw the temps go above 42 C. This is quite an
 achievement because I am in India (it's very hot here) and in a room that is
 without an AC.
 
-![hello world](/static/images/visionfive_2_review_btop_screenshot.png)
+![btop running on VisionFive 2](/static/images/visionfive_2_review_btop_screenshot.png)
 
-The compilation of StarFive's VisionFive 2 Linux kernel tree using the 
+The compilation of StarFive's VisionFive 2 Linux kernel tree using the
 following command completed in 2 hours and 15 minutes. That's _really quick_
 for such a machine!
 
@@ -297,7 +297,7 @@ connected to a 2160p monitor. On the first day, when I couldn't find my UART
 cable, I had to rely on the display output of the board. So I connected the
 HDMI port to my **2160p** monitor, and, for what it is worth, it at least
 showed me the boot logs. Though, I did see a black screen instead of the login
-manager. I haven't done any further testing in this area since. 
+manager. I haven't done any further testing in this area since.
 {{< /notice >}}
 
 ---
